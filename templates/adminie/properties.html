@@ -1,0 +1,51 @@
+{% extends 'blank.html' %}
+
+{% block title %}
+Properties{{ block.super }}
+{% endblock %}
+{% block content %}
+    <div class="card">
+        <div class="card-header bg-white">
+            <div class="row">
+                <div class="col-md-6">Properties</div>
+                <div class="col-md-6" align="right">
+                    <a class="btn btn-sm btn-primary" href="{% url 'adminie:prop-new' %}">New</a>
+                </div>
+            </div>
+
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Location</th>
+                            <th>Beds | Baths</th>
+                            <th>Price</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for object in object_list %}
+                            <tr>
+                                <td>{{ object.title }}</td>
+                                <td>{{ object.located }}</td>
+                                <td>{{ object.beds }} | {{ object.baths }}</td>
+                                <td>{{ object.price }}</td>
+                                <td>{{ object.status }}</td>
+                                <td>
+                                    <a href="{% url 'adminie:prop-detail' object.id %}" class="btn btn-sm btn-light" title="Details">
+                                        <i class="mdi mdi-chevron-double-right mdi-24px"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

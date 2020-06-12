@@ -1,0 +1,49 @@
+{% extends 'blank.html' %}
+{% load bootstrap4 %}
+{% block title %}
+New Property{{ block.super }}
+{% endblock %}
+{% block content %}
+    <div class="card">
+        <div class="card-header bg-white">New Property</div>
+        <div class="card-body">
+            <form action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+            {% bootstrap_form form %}
+
+            <div class="form-group">
+                <button class="btn btn-block btn-primary" type="submit">Submit</button>
+            </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script>
+        document.getElementById("id_sqft").hidden = true;
+        document.getElementById("id_price_sqft").hidden = true;
+        document.getElementById("id_price").hidden =true;
+
+        $("#id_property_type").change(function () {
+            if($(this).val() == 'Sale')
+            {
+                $("#id_sqft").prop('hidden', false);
+                $("#id_price_sqft").prop('hidden', false);
+                $("#id_sqft").prop('required', true);
+                $("#id_price_sqft").prop('required', true);
+            }else if($(this).val() == 'Rent')
+            {
+                $("#id_sqft").prop('hidden', true);
+                $("#id_price_sqft").prop('hidden', true);
+                $("#id_sqft").prop('required', false);
+                $("#id_price_sqft").prop('required', false);
+                $("#id_price").prop('hidden', false);
+                $("#id_price").prop('required', false);
+
+            }
+        })
+
+    </script>
+{% endblock %}

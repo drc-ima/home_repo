@@ -1,0 +1,168 @@
+{% extends 'blank.html' %}
+{% block title %}
+    {{ object.title }}{{ block.super }}
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <img src="{{ object.gallery.url }}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{ object.title }}</h5>
+                    <div class="card-text">
+                        <div class="list-group list-group-flush">
+                            <div class="list-group-item">
+                                Home Type:  {{ object.home_type }}
+                            </div>
+                            <div class="list-group-item">
+                                Year Built: {{ object.year_built }}
+                            </div>
+                            <div class="list-group-item">
+                                Price/Sqft: GHS {{ object.price_sqft }}
+                            </div>
+                            <div class="list-group-item">
+                                Sqft: {{ object.sqft }}
+                            </div>
+                            <div class="list-group-item">
+                                Price: GHS {{ object.price }}
+                            </div>
+                            <div class="list-group-item">
+                                Location: {{ object.located }}
+                            </div>
+                            <div class="list-group-item">
+                                Type: {{ object.property_type }}
+                            </div>
+                            <div class="list-group-item">
+                                Status: {{ object.status }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">Requests</div>
+                <div class="card-body">
+                    <div class="list-group list-group-flush">
+                        {% for client in object.client_requests.all %}
+                            <div class="list-group-item">
+                                <div class="row">
+                                    <div class="col-md-4">{{ client.name }}</div>
+                                    <div class="col-md-4" align="center">{{ client.phone }}</div>
+                                    {% if object.status == 'REQUESTED' %}
+                                        <div class="col-md-4" align="right"><a href="#" class="btn btn-sm btn-primary text-white" data-target="#client{{ client.id }}" data-toggle="modal">Payment</a></div>
+                                        <div class="modal fade" id="client{{ client.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <nav>
+                                                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                                            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Mobile Money</a>
+                                                            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Visa/MasterCard</a>
+{#                                                            <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</a>#}
+                                                        </div>
+                                                    </nav>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="tab-content" id="nav-tabContent">
+                                                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                                                        <form action="{% url 'adminie:payment' id=object.id type='Momo' client=client.id %}" method="post">
+                                                            <div class="modal-body">
+                                                                {% csrf_token %}
+                                                                <div class="form-group">
+                                                                    <label for="id_phone">Phone Number</label>
+                                                                    <input type="text" id="id_phone" class="form-control" name="phone">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="id_carrier">Carrier</label>
+                                                                    <select name="carrier" id="id_carrier" class="custom-select">
+                                                                        <option value="">-------</option>
+                                                                        <option value="MTN">MTN</option>
+                                                                        <option value="VDF">Vodafone</option>
+                                                                        <option value="TGO">Tigo</option>
+                                                                        <option value="ATL">Airtel</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="id_amount">Amount</label>
+                                                                    <input type="text" id="id_amount" class="form-control" disabled value="{{ object.price }}" name="amount">
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                <button type="submit" class="btn btn-primary">Pay</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                                                        <form action="{% url 'adminie:payment' id=object.id type='Card' client=client.id %}" method="post">
+                                                            <div class="modal-body">
+                                                                {% csrf_token %}
+                                                                <div class="form-group">
+                                                                    <label for="id_carrier">Card Type</label>
+                                                                    <select name="card_type" id="id_carrier" class="custom-select">
+                                                                        <option value="">-------</option>
+                                                                        <option value="Visa">Visa</option>
+                                                                        <option value="Master">Master Card</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="id_card_number">Card Number</label>
+                                                                    <input type="text" id="id_card_number" class="form-control" name="card_number">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="id_cvv">CVV</label>
+                                                                    <input type="text" id="id_cvv" class="form-control" name="cvv">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="id_phone">Expiry Date</label>
+                                                                    <input type="date" id="id_phone" class="form-control" name="expiry_date">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="id_amount">Amount</label>
+                                                                    <input type="text" id="id_amount" class="form-control" disabled value="{{ object.price }}" name="amount">
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                <button type="submit" class="btn btn-primary">Pay</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+{#                                                    <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>#}
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                    {% if client.status == 'PAID' %}
+                                        <a href="{% url 'adminie:receipt' receipt.id %}" class="btn btn-sm small btn-light">Receipt</a>
+                                        <a href="{% url 'adminie:sign' receipt.id %}" class="btn btn-sm small btn-light">Sign</a>
+{#                                        <div class="row">#}
+{#                                            <div class="col">#}
+{#                                                #}
+{#                                            </div>#}
+{#                                            <div class="col">#}
+{#                                                #}
+{#                                            </div>#}
+{#                                        </div>#}
+                                    {% endif %}
+                                </div>
+
+                            </div>
+                        {% endfor %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

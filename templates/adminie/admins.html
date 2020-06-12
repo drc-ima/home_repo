@@ -1,0 +1,40 @@
+{% extends 'blank.html' %}
+{% block title %}
+Admin Insight{{ block.super }}
+{% endblock %}
+{% block content %}
+    <div class="card">
+        <div class="card-header bg-white">
+            <div class="row">
+                <div class="col-md-6">Administrators</div>
+                <div class="col-md-6" align="right">
+                    <a href="{% url 'adminie:new-admin' %}" class="btn btn-sm btn-primary">New</a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-borderless">
+                    <thead>
+                        <tr>
+                            <th>Full Name</th>
+                            <th>Username</th>
+                            <th>Email Address</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for object in object_list %}
+                            <tr>
+                                <td>{{ object.get_full_name }}</td>
+                                <td>{{ object.username }}</td>
+                                <td>{{ object.email }}</td>
+                            </tr>
+                        {% endfor %}
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

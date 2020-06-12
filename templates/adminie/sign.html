@@ -1,0 +1,107 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{% block title %} - Homeland{% endblock %}</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="{% static 'admin/vendors/iconfonts/mdi/css/materialdesignicons.min.css' %}">
+    <link rel="stylesheet" href="{% static 'admin/vendors/iconfonts/ionicons/css/ionicons.css' %}">
+    <link rel="stylesheet" href="{% static 'admin/vendors/iconfonts/typicons/src/font/typicons.css' %}">
+    <link rel="stylesheet" href="{% static 'admin/vendors/iconfonts/flag-icon-css/css/flag-icon.min.css' %}">
+    <link rel="stylesheet" href="{% static 'admin/vendors/css/vendor.bundle.base.css' %}">
+    <link rel="stylesheet" href="{% static 'admin/vendors/css/vendor.bundle.addons.css' %}">
+    <!-- endinject -->
+    <!-- plugin css for this page -->
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="{% static 'admin/css/shared/style.css' %}">
+
+    <link rel="stylesheet" href="{% static 'admin/css/demo_1/style.css' %}">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="{% static 'admin/images/favicon.png' %}" />
+</head>
+<body class="bg-white">
+<div class="container">
+    {% if object.propertie.home_type == 'Condo' %}
+        {% if object.propertie.property_type == 'Rent' %}
+            <p class="center mt-3 h3" align="center">Tenancy Agreement</p>
+            <p class="" align="center">
+                <span class="font-weight-bold">THIS AGREEMENT</span> made this {{ today }} between {{ object.propertie.owner }} of _________________________________________________ of the Republic of Ghana hereinafter called the LANDLORD which expression shall where the context so admits or requires include his heirs successors personal representatives and assigns of the one part and {{ object.client.name }}  of ________________________________, hereinafter called the Tenant which expression shall where the context so admits or requires include his successors heirs personal representatives and assigns of the other part.
+            </p>
+            <p>
+                <p class="h5">THIS AGREEMENT WITNESSES AS FOLLOWS</p>
+                The LANDLORD demised unto the TENANT a {{ object.propertie.beds }} bedrooms, and {{ object.propertie.baths }} bathrooms {{ object.propertie.home_type }} accommodation in his house {{ object.propertie.title }}, {{ object.propertie.located }} hereinafter called the demised premises to hold same from the _______________________________ for a term of ____________________ paying __________________ rent of GHS {{ object.payment.amount }}  and paid rent of ____________________________________________
+
+            </p>
+
+            <p>
+                <span class="h4">THE TENANT HEREBY COVENANTS WITH THE LANDLORD AS FOLLOWS.</span>
+
+                <ol type="1">
+                    <li>To pay the rent hereby reserved at the time in manner aforesaid without any deductions whatsoever.</li>
+                    <li>To pay all such apportioned water, electricity and conservancy bills as and when such bills are presented to the Demised Premises.</li>
+                    <li>To keep the interior portion of the Demised Premises all door locks, walls and fixture and fittings in good and tenantable manner.</li>
+                    <li>To make good any damage to the foregoing which shall be caused by negligence of him/ herself, family, servants or visitors and so that every such damage shall be presumed to have been caused by him/ her.</li>
+                    <li>Not to transfer tenancy without the written consent for three month to the LANDLORD.</li>
+                    <li>Not to do or permit or suffer to be held upon anything which shall be annoyance or nuisance to the LANLORD or any adjoining occupiers</li>
+                    <li>To yield up the Demised Premises at the expiry of the tenancy with fixtures in good and tenantable repair.</li>
+                    <li>Not to carry any trade, business, poultry, livestock, etc. or profession upon the Demised Premises but use as Residential Accommodation Only.</li>
+                    <li>To give three months’ notice ahead whether to stay or to vacate.</li>
+                    <li>To keep both interior and surrounding of the premises neat and clean.</li>
+
+                </ol>
+            </p>
+            <p>
+                <span class="h4">THE LANDLORD HEREBY COVENANTS WITH THE TENANT AS FOLLOWS</span>
+
+                The TENANT having paid the rent reserved and performing the several covenants conditions and stipulations on his part shall peaceably hold and enjoy the Demised Premises during the said term without any interruption from the LAND LORD his successor’s agents and assigns.
+
+            </p>
+
+            <p>IN WITNESS WHEREOF the parties present have hereunto set their respective hands and seals the day and year first above written.</p>
+            <p class="font-weight-bold" align="center">Signatures</p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p>LandLord: {{ object.propertie.owner }}</p>
+                            <p>Signature: ___________________________________________________________________</p>
+                            <p>Date: ________________________________________________________________________</p>
+                        </div>
+                        <div class="col-md-12">
+                            <p>Witness: ______________________________________________________________________</p>
+                            <p>Signature: _____________________________________________________________________</p>
+                            <p>Date: __________________________________________________________________________</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p>Tenant: {{ object.client.name }}</p>
+                            <p>Signature: ___________________________________________________________________</p>
+                            <p>Date: ________________________________________________________________________</p>
+                        </div>
+                        <div class="col-md-12">
+                            <p>Witness: ______________________________________________________________________</p>
+                            <p>Signature: _____________________________________________________________________</p>
+                            <p>Date: __________________________________________________________________________</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% elif object.propertie.property_type == 'Sale' %}
+            hi
+        {% endif %}
+    {% elif object.propertie.home_type == 'Commercial Buiding' %}
+    {% elif object.propertie.home_type == 'Land Property' %}
+    {% endif %}
+</div>
+
+</body>
+</html>
+
+
